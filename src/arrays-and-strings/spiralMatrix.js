@@ -79,6 +79,81 @@ import Assert from "node:assert";
     return result;
 };
 
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+ var spiralOrder2 = function(matrix) {
+    const RIGHT = "right";
+    const LEFT = "left";
+    const DOWN = "down";
+    const UP = "up";
+    
+    // result.length == matrix.length * matrix[0].length;
+    let result = [];
+    const EXPECTED_COUNT = matrix.length * matrix[0].length;
+    
+    let BOUND_TOP = -1;
+    let BOUND_LEFT = -1;
+    let BOUND_RIGHT = matrix[0].length;
+    let BOUND_BOTTOM = matrix.length
+    
+    let direction = RIGHT;
+    let row = 0, col = 0;   // current pointer location
+    
+    const move = () => {
+        // check for direction change
+        if(direction === RIGHT && col === BOUND_RIGHT-1) {
+            direction = DOWN;
+            BOUND_TOP++;
+        }
+        else if(direction === DOWN && row === BOUND_BOTTOM-1) {
+            direction = LEFT;
+            BOUND_RIGHT--;
+        }
+        else if(direction === LEFT && col === BOUND_LEFT+1) {
+            direction = UP;
+            BOUND_BOTTOM--;
+        }
+        else if(direction === UP && row === BOUND_TOP+1) {
+            direction = RIGHT;
+            BOUND_LEFT++;
+        }
+        
+        // update row or col
+        switch(direction) {
+            case RIGHT:
+                col++;
+                break;
+            case DOWN:
+                row++;
+                break;
+            case LEFT:
+                col--;
+                break;
+            case UP:
+                row--;
+                break;
+            default:
+                console.error(`invalid direction: ${direction}`);
+                break;
+        }
+        
+    }
+    
+    // traverse in sprial order
+    while(result.length < EXPECTED_COUNT) {
+        
+        // add the current value
+        result.push(matrix[row][col]);
+        
+        // go to next value
+        move();
+    }
+        
+    return result;
+};
+
 let matrix = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25]];
 let result = spiralOrder(matrix);
 console.log(result);

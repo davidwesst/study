@@ -11,44 +11,74 @@
  * @return {ListNode}
  */
  var addTwoNumbers = function(l1, l2) {
-    let carryOver = false;
+    function reverse(node) {
+        let head = node;
+        let prev = null;
+        
+        while(head) {
+            // set the next
+            let temp = head.next;
+            head.next = prev;
+            
+            // update and move
+            prev = head;
+            head = temp;
+        }
+        
+        return prev;
+    }
     
-    let curr1 = l1;
-    let curr2 = l2;
-    let head = new ListNode(0, null);
-    let result = head;
-    
-    while(curr1 !== null && curr2 !== null) {
-        // add values
-        let currTotal = 0;
-        if(curr1 !== null) {
-            currTotal += curr1.val;
+    // reverse the inputs
+    let revl1 = reverse(l1);
+    let revl2 = reverse(l2);
+    let carryover = false;
+       
+    // do the addition
+    let answerHead;
+    let answer;
+    while(revl1 || revl2 || carryover) {
+        // add a new digit to the answer
+        if(!answer) {
+            answer = new ListNode(0, null);
+            answerHead = answer;
         }
-        if(curr2 !== null) {
-            currTotal += curr2.val;
-        }
-        
-        // check carryover
-        if(currTotal > 9) {
-            carryOver = true;
-            currTotal = currTotal % 10;
+        else {
+            answer.next = new ListNode(0, null);
+            answer = answer.next;
         }
         
-        // set result
-        result.val = currTotal;
-        
-        
-        // move along the list
-        if(curr1) {
-            curr1 = curr1.next;
+        // add the digits that we have
+        if(revl1 && revl2) {
+            answer.val = revl1.val + revl2.val;
         }
-        if(curr2) {
-            curr2 = curr2.next;
+        else if(!revl1 && revl2) {
+            answer.val += revl2.val;
         }
-        if(curr1 || curr2) {
-            result.next = ListNode(0, null);
+        else if(!revl2 && revl1) {
+            answer.val += revl1.val;
+        }
+        
+        // handle carryover
+        if(carryover) {
+            answer.val += 1;
+            carryover = false;
+        }
+        
+        // set carryover
+        if(answer.val >= 10) {
+            carryover = true;
+            answer.val = answer.val % 10;
+        }
+        
+        // move to next digit
+        if(revl1) {
+            revl1 = revl1.next;
+        }
+        if(revl2) {
+            revl2 = revl2.next;
         }
     }
     
-    return head;
+    // reverse the answer
+    return reverse(answerHead);
 };
