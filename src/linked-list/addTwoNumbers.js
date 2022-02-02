@@ -1,84 +1,55 @@
 /**
  * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
  */
+function ListNode(val, next) {
+     this.val = (val===undefined ? 0 : val)
+     this.next = (next===undefined ? null : next)
+}
+
 /**
  * @param {ListNode} l1
  * @param {ListNode} l2
  * @return {ListNode}
  */
  var addTwoNumbers = function(l1, l2) {
-    function reverse(node) {
-        let head = node;
-        let prev = null;
-        
-        while(head) {
-            // set the next
-            let temp = head.next;
-            head.next = prev;
-            
-            // update and move
-            prev = head;
-            head = temp;
-        }
-        
-        return prev;
-    }
+    let carryOver = false;
     
-    // reverse the inputs
-    let revl1 = reverse(l1);
-    let revl2 = reverse(l2);
-    let carryover = false;
-       
-    // do the addition
-    let answerHead;
-    let answer;
-    while(revl1 || revl2 || carryover) {
-        // add a new digit to the answer
-        if(!answer) {
-            answer = new ListNode(0, null);
-            answerHead = answer;
+    let curr1 = l1;
+    let curr2 = l2;
+    let head = new ListNode(0, null);
+    let result = head;
+    
+    while(curr1 !== null && curr2 !== null) {
+        // add values
+        let currTotal = 0;
+        if(curr1 !== null) {
+            currTotal += curr1.val;
         }
-        else {
-            answer.next = new ListNode(0, null);
-            answer = answer.next;
+        if(curr2 !== null) {
+            currTotal += curr2.val;
         }
         
-        // add the digits that we have
-        if(revl1 && revl2) {
-            answer.val = revl1.val + revl2.val;
-        }
-        else if(!revl1 && revl2) {
-            answer.val += revl2.val;
-        }
-        else if(!revl2 && revl1) {
-            answer.val += revl1.val;
+        // check carryover
+        if(currTotal > 9) {
+            carryOver = true;
+            currTotal = currTotal % 10;
         }
         
-        // handle carryover
-        if(carryover) {
-            answer.val += 1;
-            carryover = false;
-        }
+        // set result
+        result.val = currTotal;
         
-        // set carryover
-        if(answer.val >= 10) {
-            carryover = true;
-            answer.val = answer.val % 10;
-        }
         
-        // move to next digit
-        if(revl1) {
-            revl1 = revl1.next;
+        // move along the list
+        if(curr1) {
+            curr1 = curr1.next;
         }
-        if(revl2) {
-            revl2 = revl2.next;
+        if(curr2) {
+            curr2 = curr2.next;
+        }
+        if(curr1 || curr2) {
+            result.next = ListNode(0, null);
         }
     }
     
-    // reverse the answer
-    return reverse(answerHead);
+    return head;
 };
