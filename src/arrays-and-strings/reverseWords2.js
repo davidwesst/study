@@ -60,9 +60,43 @@
         }
     }
 };
+
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+ var reverseWords3 = function(s) {
+    // reverse everything, including spelling
+    s = s.reverse();
+    
+    // undo spelling reverse
+    let start = 0, end;
+    
+    while(start < s.length) {
+        // get the end of the word
+        end = s.indexOf(" ", start);
+        if(end < 0) { end = s.length; }
+        
+        // undo reverse spelling
+        let i=start, j=end-1;
+        while(i < j) {
+            let swap = s[i];
+            s[i] = s[j];
+            s[j] = swap;
+
+            i++
+            j--;
+        }
+        
+        // move to next word
+        start = end+1;
+    }
+    
+};
+
 let test1 = ["t","h","e"," ","s","k","y"," ","i","s"," ","b","l","u","e"];
-console.log(reverseWords2(test1));
+console.log(reverseWords3(test1));
 
 let test2 = ["i"," ","l","o","v","e"," ","c","a","t","s"];
-console.log(reverseWords2(test2));
+console.log(reverseWords3(test2));
 
