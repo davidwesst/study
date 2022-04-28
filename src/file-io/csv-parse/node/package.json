@@ -1,0 +1,13 @@
+{
+  "name": "csv-parse",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "packageManager": "yarn@1.22.18^",
+  "repository": "https://github.com/davidwesst/study",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "node index.js"
+  }
+}
