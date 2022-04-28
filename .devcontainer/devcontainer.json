@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/typescript-node
 {
-	"name": "JS/TS",
+	"name": "JS/TS/Go/C#",
 	"build": {
 		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick a Node version: 16, 14, 12.
@@ -30,6 +30,12 @@
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node",
 	"features": {
-		"github-cli": "latest"
+		"azure-cli": "latest",
+		"docker-in-docker": "latest",
+		"dotnet": "latest",
+		"git-lfs": "latest",
+		"github-cli": "latest",
+		"golang": "latest",
+		"sshd": "latest"
 	}
 }
